@@ -7,11 +7,21 @@ import { fontSize, spacing } from '../constants/dimensions';
 
 const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152/325x325/1705340894_JZ2NifV4gB_2024---CARTOON-JEYJA---On--On-ft.-Daniel-Levi.jpg";
 
-const SongCard = () => {
+const SongCard = ({ containerStyle, imageStyle }) => {
   return (
-    <TouchableOpacity style={styles.container}>
-      <Image source={{uri: imageUrl }} style={styles.coverImage} />
-      <Text style={styles.title}>Royalty</Text>
+    <TouchableOpacity style={[styles.container, containerStyle]}>
+
+      <Image 
+        source={{uri: imageUrl }} 
+        style={[styles.coverImage, imageStyle]} 
+      />
+      <Text 
+        style={styles.title}
+        numberOfLines={1}
+      >
+        Royalty
+      </Text>
+
       <Text style={styles.artist}>Maestro Chives</Text>
       
     </TouchableOpacity>
@@ -21,10 +31,10 @@ const SongCard = () => {
 export default SongCard
 
 const styles = StyleSheet.create({
-    container: {
-        height: 330,
-        width: 250,
-    },
+    // container: {
+    //     height: 330,
+    //     width: 250,
+    // },
     coverImage: {
         width: 250,
         height: 250,
