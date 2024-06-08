@@ -7,14 +7,22 @@ import { GoToNextButton, GoToPreviousButton, PlayPauseButton } from './PlayerCon
 import { useSharedValue } from 'react-native-reanimated'
 import { Slider } from 'react-native-awesome-slider'
 import MovingText from './MovingText'
+import { useNavigation } from '@react-navigation/native'
 
 
 const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152/325x325/1705340894_JZ2NifV4gB_2024---CARTOON-JEYJA---On--On-ft.-Daniel-Levi.jpg"
 
 const FloatingPlayer = () => {
+    const navigation = useNavigation();
     const progress = useSharedValue(0.2);
     const min = useSharedValue(0);
     const max = useSharedValue(10);
+
+    const handleOpenPlayerScreen = ()=> {
+        navigation.navigate("Player_Screen")
+    }
+
+
     return (
         <View>
             <View style={{
@@ -32,24 +40,28 @@ const FloatingPlayer = () => {
                     renderBubble={() => <View />}                
                 />
             </View>
-            <TouchableOpacity style={styles.container} activeOpacity={0.85} >
-            <Image source={{uri: imageUrl }} style={styles.coverImage} />
-            <View style={styles.titleContainer}>
-                <MovingText 
-                    style={styles.title} 
-                    text={"Frank frank and Frank frank"}
-                    animationThreshold={15}
-                />
-                {/* <Text style={styles.title}>Chaff and Dust</Text> */}
-                <Text style={styles.artist}>Allan Walker</Text>
-            </View>
+            <TouchableOpacity 
+                style={styles.container} 
+                activeOpacity={0.85} 
+                onPress={handleOpenPlayerScreen}
+            >
+                <Image source={{uri: imageUrl }} style={styles.coverImage} />
+                <View style={styles.titleContainer}>
+                    <MovingText 
+                        style={styles.title} 
+                        text={"Frank frank and Frank frank"}
+                        animationThreshold={15}
+                    />
+                    {/* <Text style={styles.title}>Chaff and Dust</Text> */}
+                    <Text style={styles.artist}>Allan Walker</Text>
+                </View>
 
-            <View style={styles.playerPreviousButton}>
-                <GoToPreviousButton />
-                <PlayPauseButton />
-                <GoToNextButton />
-            </View>
-        </TouchableOpacity>
+                <View style={styles.playerPreviousButton}>
+                    <GoToPreviousButton />
+                    <PlayPauseButton />
+                    <GoToNextButton />
+                </View>
+            </TouchableOpacity>
         </View>
     )
 }
