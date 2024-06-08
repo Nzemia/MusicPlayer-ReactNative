@@ -6,14 +6,15 @@ import { fontFamilies } from '../constants/fonts'
 import { GoToNextButton, GoToPreviousButton, PlayPauseButton } from './PlayerControls'
 import { useSharedValue } from 'react-native-reanimated'
 import { Slider } from 'react-native-awesome-slider'
+import MovingText from './MovingText'
 
 
 const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152/325x325/1705340894_JZ2NifV4gB_2024---CARTOON-JEYJA---On--On-ft.-Daniel-Levi.jpg"
 
 const FloatingPlayer = () => {
-    const progress = useSharedValue(30);
+    const progress = useSharedValue(0.2);
     const min = useSharedValue(0);
-    const max = useSharedValue(100);
+    const max = useSharedValue(10);
     return (
         <View>
             <View style={{
@@ -27,13 +28,19 @@ const FloatingPlayer = () => {
                     theme={{
                         maximumTrackTintColor: colors.maximumTintColor,
                         minimumTrackTintColor: colors.minimumTintColor,                        
-                    }}                
+                    }}
+                    renderBubble={() => <View />}                
                 />
             </View>
             <TouchableOpacity style={styles.container} activeOpacity={0.85} >
             <Image source={{uri: imageUrl }} style={styles.coverImage} />
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Chaff and Dust</Text>
+                <MovingText 
+                    style={styles.title} 
+                    text={"Frank frank and Frank frank"}
+                    animationThreshold={15}
+                />
+                {/* <Text style={styles.title}>Chaff and Dust</Text> */}
                 <Text style={styles.artist}>Allan Walker</Text>
             </View>
 
@@ -56,11 +63,14 @@ const styles = StyleSheet.create({
     },
     coverImage: {
         height: 60,
-        width: 60
+        width: 60,
     },
     titleContainer: {
         flex: 1,
-        paddingHorizontal: spacing.sm,        
+        paddingHorizontal: spacing.sm,     
+        overflow: "hidden",
+        marginLeft: spacing.sm,
+        marginRight: spacing.lg,   
     },
     title: {
         color: colors.textPrimary,
