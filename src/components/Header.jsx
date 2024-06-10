@@ -7,12 +7,17 @@ import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { colors } from '../constants/colors';
 import { iconSizes, spacing } from '../constants/dimensions';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Header = () => {
+    const navigation = useNavigation();
+    const toggleDrawer = () => {
+        navigation.toggleDrawer();
+    }
     return (
         <View style={styles.header}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={toggleDrawer}>
                     <Entypo 
                         name={"menu"} 
                         color={colors.iconPrimary} 
