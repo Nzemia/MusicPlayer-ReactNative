@@ -49,11 +49,11 @@ const FloatingPlayer = () => {
                 <View style={styles.titleContainer}>
                     <MovingText 
                         style={styles.title} 
-                        text={"Frank frank and Frank frank"}
+                        text={"On & On"}
                         animationThreshold={15}
                     />
                     {/* <Text style={styles.title}>Chaff and Dust</Text> */}
-                    <Text style={styles.artist}>Allan Walker</Text>
+                    <Text style={styles.artist}>Cartoon, Jeja, Daniel Levi</Text>
                 </View>
 
                 <View style={styles.playerPreviousButton}>

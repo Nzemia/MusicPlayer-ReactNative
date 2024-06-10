@@ -1,7 +1,7 @@
 export const RecommendedSongs = [   
     {
         url: 'https://xbhsepeugbnqiergymxr.supabase.co/storage/v1/object/public/MusicPlayer/NIVIRO_-_I_ll_Be_There__NCS_Release_.mp3?t=2024-06-10T09%3A17%3A26.886Z', 
-        title: 'Ill Be There',
+        title: 'Be There',
         artist: 'NIVIRO',                
         artwork: 'https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/001/658/325x325/ill-be-there-1712275266-nEBOJ5oMrC.jpg', 
     },    

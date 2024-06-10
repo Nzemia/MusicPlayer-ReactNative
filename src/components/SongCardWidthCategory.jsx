@@ -4,8 +4,30 @@ import { fontSize, spacing } from '../constants/dimensions'
 import SongCard from './SongCard'
 import { colors } from '../constants/colors'
 import { fontFamilies } from '../constants/fonts'
+import TrackPlayer from 'react-native-track-player'
 
 const SongCardWidthCategory = ({ item }) => {
+  //function for playing the song in a queue
+  const handlePlayTrack = async(selectedTrack, songs = item.songs) => {    
+    //make a queue and play the song
+    const trackIndex = songs.findIndex((track) => track.url === selectedTrack.url);
+    //if track doesnt exist
+    if(trackIndex === -1) {
+      return;
+    }
+
+    const beforeTracks = songs.slice(0, trackIndex);
+    const afterTracks = songs.slice(trackIndex + 1);
+
+    await TrackPlayer.reset();
+
+    await TrackPlayer.add(selectedTrack);
+    await TrackPlayer.add(afterTracks);
+    await TrackPlayer.add(beforeTracks);
+
+    await TrackPlayer.play();
+    
+  }
   return (
     <View style={styles.container} >
       <Text style={styles.headingText}>
@@ -14,7 +36,10 @@ const SongCardWidthCategory = ({ item }) => {
 
         <FlatList 
           data={item.songs}          
-          renderItem={SongCard} 
+          renderItem={({ item }) => <SongCard item={item} 
+            handlePlay = {(selectedTrack) => {
+            handlePlayTrack(selectedTrack)
+          }}/>} 
           horizontal={true}
           ItemSeparatorComponent={
             <View style={{ marginHorizontal: spacing.sm }}/>
