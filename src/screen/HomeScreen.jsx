@@ -14,6 +14,7 @@ import { fontFamilies } from '../constants/fonts';
 import SongCard from '../components/SongCard';
 import SongCardWidthCategory from '../components/SongCardWidthCategory';
 import FloatingPlayer from '../components/FloatingPlayer';
+import { SongsWithCategory } from '../data/songsWithCategory';
 
 
 
@@ -22,7 +23,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
         <Header />
         <FlatList 
-          data={[1, 2, 3, 4, 5 ]} 
+          data={SongsWithCategory} 
           renderItem={SongCardWidthCategory}
           contentContainerStyle={{
             paddingBottom: 400

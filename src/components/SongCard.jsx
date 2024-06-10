@@ -7,22 +7,22 @@ import { fontSize, spacing } from '../constants/dimensions';
 
 const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152/325x325/1705340894_JZ2NifV4gB_2024---CARTOON-JEYJA---On--On-ft.-Daniel-Levi.jpg";
 
-const SongCard = ({ containerStyle, imageStyle }) => {
+const SongCard = ({ item, containerStyle, imageStyle }) => {
   return (
     <TouchableOpacity style={[styles.container, containerStyle]}>
 
       <Image 
-        source={{uri: imageUrl }} 
+        source={{uri: item.artwork }} 
         style={[styles.coverImage, imageStyle]} 
       />
       <Text 
         style={styles.title}
         numberOfLines={1}
       >
-        Royalty
+        {item?.title}
       </Text>
 
-      <Text style={styles.artist}>Maestro Chives</Text>
+      <Text style={styles.artist}>{item?.artist}</Text>
       
     </TouchableOpacity>
   )
