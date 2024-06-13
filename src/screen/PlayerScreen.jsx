@@ -1,5 +1,5 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import { colors } from '../constants/colors'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { fontSize, iconSizes, spacing } from '../constants/dimensions';
@@ -10,17 +10,47 @@ import PlayerRepeatToggle from '../components/PlayerRepeatToggle';
 import PlayerShuffleToggle from '../components/PlayerShuffleToggle';
 import PlayerProgressBar from '../components/PlayerProgressBar';
 import { GoToNextButton, GoToPreviousButton, PlayPauseButton } from '../components/PlayerControls';
+import TrackPlayer, { useActiveTrack } from 'react-native-track-player';
+import { useNavigation } from '@react-navigation/native';
 
 const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152/325x325/1705340894_JZ2NifV4gB_2024---CARTOON-JEYJA---On--On-ft.-Daniel-Levi.jpg";
 
 
+
 const PlayerScreen = () => {
+    const navigation = useNavigation();
+    const activeTrack = useActiveTrack();
     const isLiked = false;
-    const isMute = true;
+    const [isMute, setIsMute ] = useState(false);
+
+
+    const handleGoBack = () => {
+        navigation.goBack();
+    };
+
+    if(!activeTrack){
+        return(
+            <View style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: colors.background
+            }}>
+                <ActivityIndicator size={"large"} color={colors.iconPrimary}/>
+            </View>
+        )
+    };
+
+    const handleToggleVolume =() => {
+        TrackPlayer.setVolume(isMute ? 1: 0 )     
+        setIsMute(!isMute)   
+    }
+
+    
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleGoBack}>
                     <AntDesign 
                         name={"arrowleft"} 
                         color={colors.iconPrimary} 
@@ -36,14 +66,14 @@ const PlayerScreen = () => {
 
             {/* image */}
             <View style={styles.coverImageContainer}>
-                <Image source={{uri: imageUrl }} style={styles.coverImage} />
+                <Image source={{uri: activeTrack.artwork }} style={styles.coverImage} />
             </View>
 
             { /* render title and artist name*/}
             <View style={styles.titleRowHeartContainer}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Believer</Text>
-                    <Text style={styles.artist}>Imagine Dragons</Text>
+                    <Text style={styles.title}>{activeTrack.title}</Text>
+                    <Text style={styles.artist}>{activeTrack.artist}</Text>
                 </View>
 
                 <TouchableOpacity>
@@ -57,9 +87,9 @@ const PlayerScreen = () => {
 
             { /* Player controls */}
             <View style={styles.playerControlContainer}>
-                <TouchableOpacity style={styles.volumeWrapper}>
+                <TouchableOpacity style={styles.volumeWrapper} onPress={handleToggleVolume}>
                     <Feather 
-                    name={isMute ? "volume-1" : "volume-x"}
+                    name={isMute ? "volume-x" : "volume-1"}
                     size = {iconSizes.lg}
                     color={colors.iconSecondary}
                 />

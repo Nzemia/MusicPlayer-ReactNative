@@ -8,7 +8,8 @@ import { useSharedValue } from 'react-native-reanimated'
 import { Slider } from 'react-native-awesome-slider'
 import MovingText from './MovingText'
 import { useNavigation } from '@react-navigation/native'
-import TrackPlayer from 'react-native-track-player'
+import { useActiveTrack } from 'react-native-track-player'
+
 
 
 const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152/325x325/1705340894_JZ2NifV4gB_2024---CARTOON-JEYJA---On--On-ft.-Daniel-Levi.jpg"
@@ -20,16 +21,14 @@ const FloatingPlayer = () => {
     const progress = useSharedValue(0.2);
     const min = useSharedValue(0);
     const max = useSharedValue(10);
-    const [currentSong, setCurrentSong] = useState(null);
+    const activeTrack = useActiveTrack();
+
 
     const handleOpenPlayerScreen = ()=> {
         navigation.navigate("Player_Screen");
     };
 
-    // const handleSongSelection = (songs) => {
-    //     setCurrentSong(songs);
-    //     // handleOpenPlayerScreen(); // Navigate to Player_Screen if needed
-    // };
+
 
 
     return (
@@ -57,8 +56,7 @@ const FloatingPlayer = () => {
                     //     }
                     //     isSliding.value = false;
                     //     await TrackPlayer.seekTo(value * duration);
-                    // }}
-                    
+                    // }}                    
                     
                 />
             </View>
@@ -68,15 +66,15 @@ const FloatingPlayer = () => {
                 onPress={handleOpenPlayerScreen}
             >
                 
-                <Image source={{uri: imageUrl }} style={styles.coverImage} />
+                <Image source={{ uri: imageUrl }} style={styles.coverImage} />
                 <View style={styles.titleContainer}>
                     <MovingText 
                         style={styles.title} 
-                        text={currentSong?.title || ''}
+                        text={""}
                         animationThreshold={15}
                     />
-                    <Text style={styles.title}>Chaff and Dust</Text>
-                    <Text style={styles.artist}>dddddddd</Text>
+                    <Text style={styles.title}>ff</Text>
+                    <Text style={styles.artist}>ff</Text>
                 </View>
 
                 <View style={styles.playerPreviousButton}>
