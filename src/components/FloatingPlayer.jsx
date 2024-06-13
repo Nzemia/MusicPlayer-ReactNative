@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { colors } from '../constants/colors'
 import { fontSize, spacing } from '../constants/dimensions'
 import { fontFamilies } from '../constants/fonts'
@@ -8,19 +8,28 @@ import { useSharedValue } from 'react-native-reanimated'
 import { Slider } from 'react-native-awesome-slider'
 import MovingText from './MovingText'
 import { useNavigation } from '@react-navigation/native'
+import TrackPlayer from 'react-native-track-player'
 
 
 const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152/325x325/1705340894_JZ2NifV4gB_2024---CARTOON-JEYJA---On--On-ft.-Daniel-Levi.jpg"
+
+
 
 const FloatingPlayer = () => {
     const navigation = useNavigation();
     const progress = useSharedValue(0.2);
     const min = useSharedValue(0);
     const max = useSharedValue(10);
+    const [currentSong, setCurrentSong] = useState(null);
 
     const handleOpenPlayerScreen = ()=> {
-        navigation.navigate("Player_Screen")
-    }
+        navigation.navigate("Player_Screen");
+    };
+
+    // const handleSongSelection = (songs) => {
+    //     setCurrentSong(songs);
+    //     // handleOpenPlayerScreen(); // Navigate to Player_Screen if needed
+    // };
 
 
     return (
@@ -37,23 +46,37 @@ const FloatingPlayer = () => {
                         maximumTrackTintColor: colors.maximumTintColor,
                         minimumTrackTintColor: colors.minimumTintColor,                        
                     }}
-                    renderBubble={() => <View />}                
+                    renderBubble={() => null}
+                    // onSlidingStart={() => (isSliding.value = true)}
+                    // onValueChange={async (value) => {
+                    //     await TrackPlayer.seekTo(value * duration);
+                    // }}
+                    // onSlidingComplete={async(value) => {
+                    //     if(!isSliding.value) {
+                    //         return;
+                    //     }
+                    //     isSliding.value = false;
+                    //     await TrackPlayer.seekTo(value * duration);
+                    // }}
+                    
+                    
                 />
             </View>
             <TouchableOpacity 
                 style={styles.container} 
-                activeOpacity={0.85} 
+                activeOpacity={0.85}                 
                 onPress={handleOpenPlayerScreen}
             >
+                
                 <Image source={{uri: imageUrl }} style={styles.coverImage} />
                 <View style={styles.titleContainer}>
                     <MovingText 
                         style={styles.title} 
-                        text={"On & On"}
+                        text={currentSong?.title || ''}
                         animationThreshold={15}
                     />
-                    {/* <Text style={styles.title}>Chaff and Dust</Text> */}
-                    <Text style={styles.artist}>Cartoon, Jeja, Daniel Levi</Text>
+                    <Text style={styles.title}>Chaff and Dust</Text>
+                    <Text style={styles.artist}>dddddddd</Text>
                 </View>
 
                 <View style={styles.playerPreviousButton}>

@@ -9,8 +9,10 @@ import TrackPlayer from 'react-native-track-player'
 const SongCardWidthCategory = ({ item }) => {
   //function for playing the song in a queue
   const handlePlayTrack = async(selectedTrack, songs = item.songs) => {    
+    
     //make a queue and play the song
     const trackIndex = songs.findIndex((track) => track.url === selectedTrack.url);
+
     //if track doesnt exist
     if(trackIndex === -1) {
       return;
