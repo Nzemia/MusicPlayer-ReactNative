@@ -1,5 +1,5 @@
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { colors } from '../constants/colors'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { fontSize, iconSizes, spacing } from '../constants/dimensions';
@@ -22,6 +22,15 @@ const PlayerScreen = () => {
     const activeTrack = useActiveTrack();
     const isLiked = false;
     const [isMute, setIsMute ] = useState(false);
+
+    useEffect(() => {
+        setVolume();
+    }, []);
+
+    const setVolume = async() => {
+        const volume = await TrackPlayer.getVolume();
+        setIsMute(volume === 0 ? true : false);
+    }
 
 
     const handleGoBack = () => {
