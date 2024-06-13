@@ -5,11 +5,20 @@ import { fontFamilies } from '../constants/fonts'
 import { fontSize, spacing } from '../constants/dimensions'
 import { Slider } from 'react-native-awesome-slider'
 import { useSharedValue } from 'react-native-reanimated'
+import TrackPlayer, { useProgress } from 'react-native-track-player'
 
 const PlayerProgressBar = () => {
+    const { duration, position } = useProgress();
+
     const progress = useSharedValue(0.25);
     const min = useSharedValue(0);
     const max = useSharedValue(1);
+    const isSliding = useSharedValue(false);
+
+    if(!isSliding.value) {
+        progress.value = duration > 0 ? position / duration : 0;
+    }
+    
     return (
         <View>
             <View style={styles.timeRow}>
@@ -36,6 +45,17 @@ const PlayerProgressBar = () => {
                 maximumValue={max}
                 thumbWidth={20}
                 renderBubble={() => null }
+                onSlidingStart={() => isSliding.value = true }
+                onValueChange={async(value) => {
+                    await TrackPlayer.seekTo(value * duration);
+                }}
+                onSlidingComplete={async(value) => {
+                    if(!isSliding.value){
+                        return;
+                    }
+                    isSliding.value = false;
+                    await TrackPlayer.seekTo(value * duration);
+                }}
             />
         </View>
     )

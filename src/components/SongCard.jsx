@@ -9,8 +9,6 @@ import TrackPlayer from 'react-native-track-player';
 const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152/325x325/1705340894_JZ2NifV4gB_2024---CARTOON-JEYJA---On--On-ft.-Daniel-Levi.jpg";
 
 const SongCard = ({ item, containerStyle, imageStyle, handlePlay }) => {
-  
-
 
   return (
     <TouchableOpacity 

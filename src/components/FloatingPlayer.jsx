@@ -8,7 +8,7 @@ import { useSharedValue } from 'react-native-reanimated'
 import { Slider } from 'react-native-awesome-slider'
 import MovingText from './MovingText'
 import { useNavigation } from '@react-navigation/native'
-import { useActiveTrack } from 'react-native-track-player'
+import { useActiveTrack, useProgress } from 'react-native-track-player'
 
 
 
@@ -22,6 +22,12 @@ const FloatingPlayer = () => {
     const min = useSharedValue(0);
     const max = useSharedValue(10);
     const activeTrack = useActiveTrack();
+    const { duration, position } = useProgress();
+    const isSliding = useSharedValue(false);
+
+    if(!isSliding.value) {
+        progress.value = duration > 0 ? position / duration : 0;
+    }
 
 
     const handleOpenPlayerScreen = ()=> {
@@ -46,17 +52,17 @@ const FloatingPlayer = () => {
                         minimumTrackTintColor: colors.minimumTintColor,                        
                     }}
                     renderBubble={() => null}
-                    // onSlidingStart={() => (isSliding.value = true)}
-                    // onValueChange={async (value) => {
-                    //     await TrackPlayer.seekTo(value * duration);
-                    // }}
-                    // onSlidingComplete={async(value) => {
-                    //     if(!isSliding.value) {
-                    //         return;
-                    //     }
-                    //     isSliding.value = false;
-                    //     await TrackPlayer.seekTo(value * duration);
-                    // }}                    
+                    onSlidingStart={() => (isSliding.value = true)}
+                    onValueChange={async (value) => {
+                        await TrackPlayer.seekTo(value * duration);
+                    }}
+                    onSlidingComplete={async(value) => {
+                        if(!isSliding.value) {
+                            return;
+                        }
+                        isSliding.value = false;
+                        await TrackPlayer.seekTo(value * duration);
+                    }}                    
                     
                 />
             </View>
@@ -65,16 +71,14 @@ const FloatingPlayer = () => {
                 activeOpacity={0.85}                 
                 onPress={handleOpenPlayerScreen}
             >
-                
-                <Image source={{ uri: imageUrl }} style={styles.coverImage} />
+                <Image source={{uri: activeTrack ? activeTrack.artwork : ""}} style={styles.coverImage} />
                 <View style={styles.titleContainer}>
                     <MovingText 
                         style={styles.title} 
-                        text={""}
+                        text={activeTrack? activeTrack.title : ""}
                         animationThreshold={15}
-                    />
-                    <Text style={styles.title}>ff</Text>
-                    <Text style={styles.artist}>ff</Text>
+                    />                    
+                    <Text style={styles.artist}>{activeTrack? activeTrack.artist : ""}</Text>
                 </View>
 
                 <View style={styles.playerPreviousButton}>
