@@ -6,6 +6,7 @@ import { fontSize, spacing } from '../constants/dimensions'
 import { Slider } from 'react-native-awesome-slider'
 import { useSharedValue } from 'react-native-reanimated'
 import TrackPlayer, { useProgress } from 'react-native-track-player'
+import { formatSecondsToMinute } from '../utils'
 
 const PlayerProgressBar = () => {
     const { duration, position } = useProgress();
@@ -17,16 +18,20 @@ const PlayerProgressBar = () => {
 
     if(!isSliding.value) {
         progress.value = duration > 0 ? position / duration : 0;
-    }
+    };
+
+    const trackElapsedTime = formatSecondsToMinute(position);
+
+    const trackRemainingTime = formatSecondsToMinute(duration - position);
     
     return (
         <View>
             <View style={styles.timeRow}>
                 <Text style={styles.timeText}>
-                    00:48
+                    {trackElapsedTime}
                 </Text>
                 <Text style={styles.timeText}>
-                    {"-"}04:00
+                    {"-"}{trackRemainingTime}
                 </Text>
             </View>
 

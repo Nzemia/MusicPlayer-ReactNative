@@ -71,7 +71,7 @@ const FloatingPlayer = () => {
                 activeOpacity={0.85}                 
                 onPress={handleOpenPlayerScreen}
             >
-                <Image source={{uri: activeTrack ? activeTrack.artwork : ""}} style={styles.coverImage} />
+                <Image source={{uri: activeTrack && activeTrack.artwork ? activeTrack.artwork : imageUrl}} style={styles.coverImage} />
                 <View style={styles.titleContainer}>
                     <MovingText 
                         style={styles.title} 
