@@ -1,22 +1,26 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
-import { colors } from '../constants/colors'
 import { fontSize, iconSizes, spacing } from '../constants/dimensions'
 import { fontFamilies } from '../constants/fonts'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useTheme } from '@react-navigation/native'
+import { useThemeStore } from '../store/themeStore'
 
 
 
 const CustomDrawerContent = ( props ) => {
-    const isDarkMode = true;
+    const { isDarkMode, toggleTheme } = useThemeStore();
+    const { colors } = useTheme();
+
+    
     const toggleDrawer = ()=> {
         props.navigation.toggleDrawer();
     }
     return (
-        <DrawerContentScrollView style={styles.container}>
+        <DrawerContentScrollView style={[styles.container, {backgroundColor: colors.background}]}>
             <View style={styles.headerIconContainer}>
                 <TouchableOpacity onPress={toggleDrawer}>
                     <AntDesign 
@@ -26,7 +30,7 @@ const CustomDrawerContent = ( props ) => {
                     />
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleTheme()}>
                     <Octicons 
                         name={isDarkMode? "sun" : "moon"} 
                         color={colors.iconPrimary}
@@ -44,7 +48,7 @@ const CustomDrawerContent = ( props ) => {
                         color={colors.iconSecondary}                        
                     />
                 )}
-                    labelStyle={styles.labelStyle}
+                    labelStyle={[styles.labelStyle, {color: colors.textPrimary}]}
                     style={styles.drawerItem}
                 />
 
@@ -56,7 +60,7 @@ const CustomDrawerContent = ( props ) => {
                         color={colors.iconSecondary}                        
                     />
                 )}
-                    labelStyle={styles.labelStyle}
+                    labelStyle={[styles.labelStyle, {color: colors.textPrimary}]}
                     style={styles.drawerItem}
                     onPress={
                         () => props.navigation.navigate("Like_Screen")}
@@ -70,7 +74,7 @@ const CustomDrawerContent = ( props ) => {
                         color={colors.iconSecondary}                        
                     />
                 )}
-                    labelStyle={styles.labelStyle}
+                    labelStyle={[styles.labelStyle, {color: colors.textPrimary}]}
                     style={styles.drawerItem}                    
                 />
 
@@ -81,7 +85,7 @@ const CustomDrawerContent = ( props ) => {
                         color={colors.iconSecondary}                        
                     />
                 )}
-                    labelStyle={styles.labelStyle}
+                    labelStyle={[styles.labelStyle, {color: colors.textPrimary}]}
                     style={styles.drawerItem}                    
                 />
 
@@ -92,7 +96,7 @@ const CustomDrawerContent = ( props ) => {
                         color={colors.iconSecondary}                        
                     />
                 )}
-                    labelStyle={styles.labelStyle}
+                    labelStyle={[styles.labelStyle, {color: colors.textPrimary}]}
                     style={styles.drawerItem}                    
                 />
 
@@ -103,7 +107,7 @@ const CustomDrawerContent = ( props ) => {
                         color={colors.iconSecondary}                        
                     />
                 )}
-                    labelStyle={styles.labelStyle}
+                    labelStyle={[styles.labelStyle, {color: colors.textPrimary}]}
                     style={styles.drawerItem}                    
                 />
                 
@@ -119,8 +123,7 @@ const CustomDrawerContent = ( props ) => {
 export default CustomDrawerContent
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: colors.background,
+    container: {        
         padding: spacing.lg
     },
     headerIconContainer: {
@@ -129,8 +132,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     labelStyle: {
-        fontSize: fontSize.md,
-        color: colors.textPrimary,
+        fontSize: fontSize.md,        
         fontFamily: fontFamilies.bold
     },
     drawerItem: {

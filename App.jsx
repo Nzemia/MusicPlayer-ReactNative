@@ -6,17 +6,28 @@ import DrawerNavigator from './src/navigation/DrawerNavigator';
 import TrackPlayer from 'react-native-track-player';
 import { useSetupPlayer } from './src/hooks/useSetupTrackPlayer';
 import useLikeSongs from './src/store/likeStore';
+import { darkTheme } from './src/theme/darkTheme';
+import { lightTheme } from './src/theme/lightTheme';
+import { useThemeStore } from './src/store/themeStore';
+import { useColorScheme } from 'react-native';
 
 
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  //applying default theme from the device
+  const scheme = useColorScheme();
+
+
+  const { isDarkMode, toggleTheme } = useThemeStore();
+
   const { loadLikedSongs } = useLikeSongs();
 
   useEffect(() => {
     loadLikedSongs();
-  }, []);
+    scheme === "light" ? toggleTheme(false) : toggleTheme(true);
+  }, [scheme]);
 
   
   const onLoad = () => {
@@ -29,7 +40,7 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer theme={ isDarkMode ? darkTheme : lightTheme }>
         <DrawerNavigator />
       </NavigationContainer>
     </GestureHandlerRootView>

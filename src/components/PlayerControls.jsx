@@ -1,14 +1,15 @@
 import { TouchableOpacity } from "react-native";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { iconSizes } from "../constants/dimensions";
-import { colors } from "../constants/colors";
 import Feather from "react-native-vector-icons/Feather"
 import TrackPlayer, { useIsPlaying } from "react-native-track-player";
+import { useTheme } from "@react-navigation/native";
 
 
 
 
 export const GoToPreviousButton = ({ size = iconSizes.lg }) => {   
+    const { colors } = useTheme();
     const handleGoToPrevious = () => {
         TrackPlayer.skipToPrevious();
     } 
@@ -24,6 +25,8 @@ export const GoToPreviousButton = ({ size = iconSizes.lg }) => {
 };
 
 export const PlayPauseButton = ({ size = iconSizes.lg }) => {
+    const { colors } = useTheme();
+
     const { playing } = useIsPlaying();
 
     const handleTogglePlay = () => {
@@ -44,7 +47,9 @@ export const PlayPauseButton = ({ size = iconSizes.lg }) => {
     )
 };
 
-export const GoToNextButton = ({ size = iconSizes.lg }) => {   
+export const GoToNextButton = ({ size = iconSizes.lg }) => { 
+    const { colors } = useTheme();
+
     const handleGoToNext = () => {
         TrackPlayer.skipToNext();
     } 

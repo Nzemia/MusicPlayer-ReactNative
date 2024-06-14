@@ -1,6 +1,5 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { colors } from '../constants/colors'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { fontSize, iconSizes, spacing } from '../constants/dimensions';
 import Fontisto from "react-native-vector-icons/Fontisto";
@@ -8,10 +7,12 @@ import { fontFamilies } from '../constants/fonts';
 import SongCard from '../components/SongCard';
 import FloatingPlayer from '../components/FloatingPlayer';
 import useLikeSongs from '../store/likeStore';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import TrackPlayer from 'react-native-track-player';
 
 const LikeScreen = () => {
+    const { colors } = useTheme();
+
     const navigation = useNavigation();
     const { likedSongs, addToLiked } = useLikeSongs();
     const handleGoBack = () => {
@@ -41,7 +42,7 @@ const LikeScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.background}]}>
         <View style={styles.headerContainer}>
             <TouchableOpacity onPress={handleGoBack}>
                 <AntDesign                
@@ -60,7 +61,7 @@ const LikeScreen = () => {
             </TouchableOpacity>
         </View>
 
-        <Text style={styles.headingText}>
+        <Text style={[styles.headingText, {color: colors.textPrimary}]}>
             Liked Songs
         </Text>
         
@@ -98,8 +99,7 @@ export default LikeScreen
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: colors.background
+        flex: 1,        
     },
     headerContainer: {
         flexDirection: "row",
@@ -109,8 +109,7 @@ const styles = StyleSheet.create({
         paddingVertical: spacing.sm,
     },
     headingText: {
-        fontSize: fontSize.xl,
-        color: colors.textPrimary,
+        fontSize: fontSize.xl,        
         fontFamily: fontFamilies.bold,
         padding: spacing.md
     }

@@ -1,6 +1,5 @@
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { colors } from '../constants/colors'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { fontSize, iconSizes, spacing } from '../constants/dimensions';
 import { fontFamilies } from '../constants/fonts';
@@ -11,7 +10,7 @@ import PlayerShuffleToggle from '../components/PlayerShuffleToggle';
 import PlayerProgressBar from '../components/PlayerProgressBar';
 import { GoToNextButton, GoToPreviousButton, PlayPauseButton } from '../components/PlayerControls';
 import TrackPlayer, { useActiveTrack } from 'react-native-track-player';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import useLikeSongs from '../store/likeStore';
 import { isLikedSongExists } from '../utils';
 
@@ -20,6 +19,7 @@ const imageUrl = "https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/152
 
 
 const PlayerScreen = () => {
+    const { colors } = useTheme();
     const { likedSongs, addToLiked } = useLikeSongs();
     const navigation = useNavigation();
     const activeTrack = useActiveTrack();
@@ -60,7 +60,7 @@ const PlayerScreen = () => {
 
     
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.background}]}>
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={handleGoBack}>
                     <AntDesign 
@@ -71,7 +71,7 @@ const PlayerScreen = () => {
                 </TouchableOpacity>
                 
                 {/* header */}
-                <Text style={styles.headerText}>
+                <Text style={[styles.headerText, {color: colors.textPrimary}]}>
                     Playing Now
                 </Text>
             </View>
@@ -84,8 +84,8 @@ const PlayerScreen = () => {
             { /* render title and artist name*/}
             <View style={styles.titleRowHeartContainer}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{activeTrack.title}</Text>
-                    <Text style={styles.artist}>{activeTrack.artist}</Text>
+                    <Text style={[styles.title, {color: colors.textPrimary}]}>{activeTrack.title}</Text>
+                    <Text style={[styles.artist, {color: colors.textSecondary}]}>{activeTrack.artist}</Text>
                 </View>
 
                 <TouchableOpacity onPress={() => addToLiked(activeTrack)}>
@@ -134,16 +134,14 @@ export default PlayerScreen
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: colors.background,
+        flex: 1,        
         padding: spacing.lg,        
     },
     headerContainer: {
         flexDirection: "row",
         alignItems: "center",            
     },
-    headerText: {
-        color: colors.textPrimary,        
+    headerText: {                
         fontSize: fontSize.lg,
         fontFamily: fontFamilies.bold,
         flex: 1,
@@ -160,13 +158,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     title: {
-        fontSize: fontSize.xl,
-        color: colors.textPrimary,
+        fontSize: fontSize.xl,        
         fontFamily: fontFamilies.medium
     },
     artist: {
-        fontSize: fontSize.md,
-        color: colors.textSecondary
+        fontSize: fontSize.md,        
     },
     titleRowHeartContainer: {
         flexDirection: "row",

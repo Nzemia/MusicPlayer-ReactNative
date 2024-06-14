@@ -2,11 +2,12 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { fontSize, spacing } from '../constants/dimensions'
 import SongCard from './SongCard'
-import { colors } from '../constants/colors'
 import { fontFamilies } from '../constants/fonts'
 import TrackPlayer from 'react-native-track-player'
+import { useTheme } from '@react-navigation/native'
 
 const SongCardWidthCategory = ({ item }) => {
+  const { colors } = useTheme();
   //function for playing the song in a queue
   const handlePlayTrack = async(selectedTrack, songs = item.songs) => {    
     
@@ -32,7 +33,7 @@ const SongCardWidthCategory = ({ item }) => {
   }
   return (
     <View style={styles.container} >
-      <Text style={styles.headingText}>
+      <Text style={[styles.headingText, { color: colors.textPrimary }]}>
         {item.title}
       </Text> 
 
@@ -48,7 +49,9 @@ const SongCardWidthCategory = ({ item }) => {
           }
           contentContainerStyle={{
             paddingHorizontal: spacing.md,
-          }}          
+          }}
+          
+          showsHorizontalScrollIndicator={false}
         />
     </View>
   )
@@ -58,8 +61,7 @@ export default SongCardWidthCategory
 
 const styles = StyleSheet.create({
     headingText: {
-        fontSize: fontSize.xl,
-        color: colors.textPrimary,
+        fontSize: fontSize.xl,        
         fontFamily: fontFamilies.bold,
         paddingVertical: spacing.lg,
         paddingHorizontal: spacing.md

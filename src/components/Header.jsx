@@ -5,12 +5,12 @@ import React from 'react'
 // icons
 import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
-import { colors } from '../constants/colors';
 import { iconSizes, spacing } from '../constants/dimensions';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 
 const Header = () => {
+    const { colors } = useTheme();
     const navigation = useNavigation();
     const toggleDrawer = () => {
         navigation.toggleDrawer();
