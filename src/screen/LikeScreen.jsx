@@ -7,12 +7,20 @@ import Fontisto from "react-native-vector-icons/Fontisto";
 import { fontFamilies } from '../constants/fonts';
 import SongCard from '../components/SongCard';
 import FloatingPlayer from '../components/FloatingPlayer';
+import useLikeSongs from '../store/likeStore';
+import { useNavigation } from '@react-navigation/native';
 
 const LikeScreen = () => {
+    const navigation = useNavigation();
+    const { likedSongs, addToLiked } = useLikeSongs();
+    const handleGoBack = () => {
+        navigation.goBack();
+    }
+
     return (
         <View style={styles.container}>
         <View style={styles.headerContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleGoBack}>
                 <AntDesign                
                     name={"arrowleft"} 
                     color={colors.iconPrimary} 
@@ -34,14 +42,15 @@ const LikeScreen = () => {
         </Text>
         
         <FlatList             
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9 ]}
-            renderItem={() => <SongCard containerStyle={{
+            data={likedSongs}
+            renderItem={({ item }) => <SongCard containerStyle={{
                 width: "47%"
             }}
             imageStyle={{
                 height: 160,
                 width: 160,
             }}
+            item = {item}
             />}
             numColumns={2}
             contentContainerStyle={{

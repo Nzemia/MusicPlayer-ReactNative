@@ -8,4 +8,8 @@ export const formatSecondsToMinute = (seconds) => {
     const formatedSeconds = String(remainingSeconds).padStart(2, "0");
 
     return `${formatedMinutes}:${formatedSeconds}`;
+};
+
+export const isLikedSongExists = (songs, track) => {
+    return songs.some(song => song.url === track.url);
 }
