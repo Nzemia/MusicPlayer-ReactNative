@@ -3,6 +3,7 @@ import { isLikedSongExists } from "../utils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
+//used zustand
 const useLikeSongs = create((set) => ({
     likedSongs: [],
     addToLiked: async (newSong) => {
